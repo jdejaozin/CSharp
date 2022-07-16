@@ -23,7 +23,9 @@ namespace exercicios
                 Console.WriteLine("7 - Valor de Pi/Circunferencia/Volume utilizando métodos estáticos");
                 Console.WriteLine("8 - Valor de Pi/Circunferencia/Volume utilizando métodos estáticos que estão em outro arquivo");
                 Console.WriteLine("9 - Conversor de dólar");
-                Console.WriteLine("10 - Sair");
+                Console.WriteLine("10 - Sistema de estoque com construtor");
+                Console.WriteLine("11 - Conta Bancaria");
+                Console.WriteLine("12 - Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -235,11 +237,82 @@ namespace exercicios
                             break;
                         }
                     case 10:
+                        {
+                            Console.WriteLine("Entre os dados do produto:");
+                            Console.Write("Nome: ");
+                            string nome = Console.ReadLine();
+                            Console.Write("Preço: ");
+                            double preco = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                            Console.Write("Quantidade no estoque: ");
+                            int quantidade = int.Parse(Console.ReadLine());
+
+                            ProdutoConstrutor p = new ProdutoConstrutor(nome, preco, quantidade);
+
+                            Console.WriteLine();
+                            Console.WriteLine("Dados do produto: " + p);
+                            Console.WriteLine();
+                            Console.Write("Digite o número de produtos a ser adicionado ao estoque: ");
+                            int qte = int.Parse(Console.ReadLine());
+                            p.AdicionarProdutos(qte);
+                            Console.WriteLine();
+                            Console.WriteLine("Dados atualizados: " + p);
+                            Console.WriteLine();
+                            Console.Write("Digite o número de produtos a ser removido do estoque: ");
+                            qte = int.Parse(Console.ReadLine());
+                            p.RemoverProdutos(qte);
+                            Console.WriteLine();
+                            Console.WriteLine("Dados atualizados: " + p);
+
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 11:
+                        {
+                            double deposito;
+                            ContaBancaria conta;
+
+                            Console.Write("Entre o número da conta: ");
+                            int numConta = int.Parse(Console.ReadLine());
+                            Console.Write("Entre o titular da conta: ");
+                            string titular = Console.ReadLine();
+                            Console.WriteLine("Haverá depósito inicial? [s/n]");
+                            string opDeposito = Console.ReadLine();
+
+                            if(opDeposito.ToUpper() == "S")
+                            {
+                                Console.Write("Insira o valor do depósito: ");
+                                deposito = double.Parse(Console.ReadLine());
+                                conta = new ContaBancaria(numConta, titular, deposito);
+                            }
+                            else
+                            {
+                                conta = new ContaBancaria(numConta, titular);
+                            }
+
+                            Console.WriteLine("\n"+conta);
+
+                            Console.Write("\nEntre um valor para depósito: ");
+                            deposito = double.Parse(Console.ReadLine());
+                            conta.Deposito(deposito);
+                            Console.WriteLine(conta);
+
+                            Console.Write("\nEntre um valor para saque: ");
+                            deposito = double.Parse(Console.ReadLine());
+                            conta.Saque(deposito);
+                            Console.WriteLine(conta);
+
+
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 12:
                         Console.WriteLine("Saindo...");
                         break;
                 }
 
-            } while (op != 10);
+            } while (op != 12);
         }
 
         static double Circunferencia(double raio)
