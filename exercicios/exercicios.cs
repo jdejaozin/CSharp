@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace exercicios
 {
@@ -25,7 +26,10 @@ namespace exercicios
                 Console.WriteLine("9 - Conversor de dólar");
                 Console.WriteLine("10 - Sistema de estoque com construtor");
                 Console.WriteLine("11 - Conta Bancaria");
-                Console.WriteLine("12 - Sair");
+                Console.WriteLine("12 - Sistema de estoque com vetor");
+                Console.WriteLine("13 - Quartos para alugar");
+                Console.WriteLine("14 - Lista de empregados");
+                Console.WriteLine("15 - Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -308,11 +312,160 @@ namespace exercicios
                             break;
                         }
                     case 12:
+                        {
+                            Console.Write("Deseja guardar informações de quantos produtos? ");
+                            int indiceVetor = int.Parse(Console.ReadLine());
+
+                            Produto[] vetorProdutos = new Produto[indiceVetor];
+
+                            for(int i = 0; i < vetorProdutos.Length; i++)
+                            {
+                                Console.Write("Insira o nome do produto: ");
+                                string nome = Console.ReadLine();
+                                Console.Write("Insira o valor do produto: ");
+                                double preco = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                                Console.Write("Insira a quatidade do produto em estoque: ");
+                                int quantidade = int.Parse(Console.ReadLine());
+
+                                Produto p = new Produto { Nome = nome, Preco = preco, Quantidade = quantidade };
+
+                                vetorProdutos[i] = p;
+                            }
+
+                            Console.WriteLine("\nLista de produtos:");
+                            for(int i = 0; i < vetorProdutos.Length; i++)
+                            {
+                                Console.WriteLine(vetorProdutos[i]);
+                            }
+
+                            Console.WriteLine("\nAperte qualquer tecla para continuar");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 13:
+                        {
+                            string cont;
+                            Pessoas[] quartos = new Pessoas[10];
+                            do
+                            {
+                                int vagos = 0;
+                                for (int i = 0; i < quartos.Length; i++)
+                                {
+                                    if (quartos[i] == null)
+                                    {
+                                        Console.WriteLine($"Quarto {i + 1}: vago");
+                                        vagos++;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Quarto {i + 1}: {quartos[i]}");
+                                    }
+                                }
+                                Console.WriteLine($"O Hotel possui {vagos} quartos vagos");
+                                Console.Write("\nDeseja alugar qual quarto? ");
+                                int numAlugar = int.Parse(Console.ReadLine());
+                                numAlugar--;
+                                if (quartos[numAlugar] == null)
+                                {
+                                    Console.Write("Insira o nome de quem está alugando: ");
+                                    string nome = Console.ReadLine();
+                                    Console.Write("Insira agora o e-mail: ");
+                                    string email = Console.ReadLine();
+                                    quartos[numAlugar] = new Pessoas(nome, email);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Quarto ocupado. Escolha outro quarto!");
+                                }
+                                Console.Write("Deseja alugar mais algum quarto?[s/n] ");
+                                cont = Console.ReadLine();
+
+                            } while (cont.ToUpper() != "N");
+                            
+
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 14:
+                        {
+                            List<Employee> employeeList = new List<Employee>();
+                            int op2;
+                            do
+                            {
+                                Console.WriteLine("1 - Adicionar empregado");
+                                Console.WriteLine("2 - Aumentar salário do empregado");
+                                Console.WriteLine("3 - Diminuir salário do empregado");
+                                Console.WriteLine("4 - Ver lista de empregados");
+                                Console.WriteLine("5 - Sair");
+                                op2 = int.Parse(Console.ReadLine());
+
+                                switch (op2)
+                                {
+                                    case 1:
+                                        {
+                                            Console.Write("ID: ");
+                                            int id = int.Parse(Console.ReadLine());
+                                            Console.Write("Nome: ");
+                                            string nome = Console.ReadLine();
+                                            Console.Write("Salário: ");
+                                            double salario = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
+                                            Employee empregado = new Employee(id, nome, salario);
+
+                                            employeeList.Add(empregado);
+
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            Console.Write("Qual o ID do empregado que terá o aumento? ");
+                                            int id = int.Parse(Console.ReadLine());
+                                            Console.Write("Insira a porcentagem de aumento: ");
+                                            double porcentagem = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
+                                            int teste = employeeList.FindIndex(x => x.Id == id);
+
+                                            employeeList[teste].Increase(porcentagem);
+
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            Console.Write("Qual o ID do empregado que terá o decrescimo? ");
+                                            int id = int.Parse(Console.ReadLine());
+                                            Console.Write("Insira a porcentagem de decrescimo: ");
+                                            double porcentagem = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
+                                            int teste = employeeList.FindIndex(x => x.Id == id);
+
+                                            employeeList[teste].Decrease(porcentagem);
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            foreach(Employee item in employeeList)
+                                            {
+                                                Console.WriteLine(item);
+                                            }
+                                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                                            Console.ReadKey();
+                                            break;
+                                        }
+                                }
+
+                            } while (op2 != 5);
+
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 15:
                         Console.WriteLine("Saindo...");
                         break;
                 }
 
-            } while (op != 12);
+            } while (op != 15);
         }
 
         static double Circunferencia(double raio)

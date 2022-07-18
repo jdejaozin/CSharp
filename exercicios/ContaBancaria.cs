@@ -7,7 +7,7 @@ namespace exercicios
     class ContaBancaria
     {
         private int _numConta;
-        public string Titular { get; private set; }
+        public string Titular { get; set; }
         public double Saldo { get; private set; }
 
         public ContaBancaria(int numConta, string Titular)
@@ -17,7 +17,7 @@ namespace exercicios
         }
         public ContaBancaria(int numConta, string Titular, double Saldo) : this(numConta, Titular)
         {
-            this.Saldo = Saldo;
+            Deposito(Saldo);
         }
 
         public void AlterarNome(string Titular)
@@ -38,7 +38,7 @@ namespace exercicios
         public override string ToString()
         {
             return "Dados da conta \nConta: " + _numConta +", Titular: " + Titular +
-                ", Saldo: " + Saldo.ToString();
+                ", Saldo: $" + Saldo.ToString();
         }
     }
 }
